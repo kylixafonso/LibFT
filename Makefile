@@ -1,9 +1,21 @@
-make:
-	@gcc -c *.c -o libft.o
+OBJECT_NAMES=$(wildcard *.c)
+
+OBJECTS=$(patsubst %.c, %.o, $(OBJECT_NAMES))
+SOURCES=$(patsubst %, %.c, $(OBJECT_NAMES))
+
+FLAGS=-Wall -Wextra -Werror
+
+all: $(OBJECTS)
+	@gcc -o libft.o $(OBJECTS)
 	@ar rcs libft.a libft.o
 
-clean:
-	@rm -f *.o
+%.o: %.c
+	@gcc -c -o $@ $^ $(FLAGS)
 
-fclean:
-	@rm -f *.a
+clean:
+	@rm -f $(wildcard *.o)
+
+fclean: clean
+	@rm -rf libft.a
+
+re: fclean all
