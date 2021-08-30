@@ -6,8 +6,7 @@ SOURCES=$(patsubst %, %.c, $(OBJECT_NAMES))
 FLAGS=-Wall -Wextra -Werror
 
 all: $(OBJECTS)
-	@gcc -o libft.o $(OBJECTS)
-	@ar rcs libft.a libft.o
+	@ar rcs libft.a $(OBJECTS)
 
 %.o: %.c
 	@gcc -c -o $@ $^ $(FLAGS)
