@@ -11,9 +11,9 @@ void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 	dest_ = (unsigned char *)dest;
 	while (i < n)
 	{
-		if (buff[i] == (unsigned char) c)
-			return (buff + i + 1);
 		dest_[i] = buff[i];
+		if (buff[i] == (unsigned char) c)
+			return (dest + i + 1);
 		i++;
 	}
 	return (NULL);
