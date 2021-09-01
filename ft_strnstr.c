@@ -9,7 +9,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t n)
 	needle_len = ft_strlen(needle);
 	while (haystack[i] && i + needle_len < n)
 	{
-		if (!strncmp(haystack, needle, needle_len))
+		if (!strncmp(haystack + i, needle, needle_len))
 			return ((char *)haystack + i);
 		i++;
 	}
