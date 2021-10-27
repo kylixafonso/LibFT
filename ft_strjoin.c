@@ -4,7 +4,7 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	len;
-	char		*new_string;
+	char	*new_string;
 
 	len = ft_strlen(s1);
 	len += ft_strlen(s2);
