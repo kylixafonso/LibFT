@@ -1,102 +1,92 @@
 #include <stdlib.h>
-#include <string.h>
 #include "libft.h"
 
-static int	count_words(char const *s, char c)
-{
-	int	is_word;
-	int	count;
-	int	i;
-
-	i = 0;
-	is_word = 0;
-	while (s[i])
-	{
-		if (s[i] != c && !is_word)
-		{
-			is_word = 1;
-			count++;
-		}
-		else if (s[i] == c)
-			is_word = 0;
-		i++;
-	}
-	return (count);
-}
-
-static int	sep_len(char const *s, char c)
+static int	count_len(char const *s, char c)
 {
 	int	i;
 
 	i = 0;
-	while (s[i] && s[i] != c)
+	while (s[i] != c && s[i] != '\0')
 		i++;
 	return (i);
 }
 
-void	*free_all(char	**string_array)
+static int	count_split(char const *s, char c)
+{
+	int	is_split;
+	int	ctr;
+	int	i;
+
+	i = 0;
+	ctr = 0;
+	if (s[0] == c)
+		is_split = 1;
+	else
+		is_split = 0;
+	while (s[i])
+	{
+		if (s[i] == c && !is_split)
+		{
+			ctr++;
+			is_split = 1;
+		}
+		else if (s[i] != c)
+			is_split = 0;
+		i++;
+	}
+	return (ctr);
+}
+
+void	*free_all(char **s_array)
 {
 	int	i;
 
 	i = 0;
-	while (string_array[i][0])
+	while (s_array[i][0])
 	{
-		free(string_array[i]);
+		free(s_array[i]);
 		i++;
 	}
-	free(string_array);
+	free(s_array);
 	return (NULL);
 }
 
-//#include <stdio.h>
 char	**ft_split(char const *s, char c)
 {
-	char	**string_array;
-	int	total_len;
-	int	len;
-	int	count;
-	int	i;
+	char	**s_array;
+	int		is_split;
+	int		ctr;
+	int		len;
+	int		i;
 
-	i = 0;
-	total_len = 0;
-	while (s[total_len] == c)
-		total_len++;
-	count = count_words(s, c);
-	string_array = (char **)malloc(sizeof(char *) * (count + 1));
-	if (string_array)
+	s_array = (char **) malloc(sizeof(char *) * (count_split(s, c) + 2));
+	if (s_array)
 	{
-		while (i < count && total_len < (int) ft_strlen(s))
+		is_split = 1;
+		i = 0;
+		ctr = 0;
+		while (s[i])
 		{
-			len = sep_len(s + total_len, c);
-			string_array[i] = (char *)malloc(sizeof(char) * (len + 1));
-			if (string_array[i])
-				strncpy(string_array[i], s + total_len, len);
-			else
-				return (free_all(string_array));
-			string_array[i][len] = '\0';
-			total_len += len;
-			while (s[total_len] == c)
-				total_len++;
+			if (s[i] != c && s[i] != '\0' && is_split)
+			{
+				len = count_len(s + i, c) + 1;
+				s_array[ctr] = (char *) malloc(sizeof(char) * (len));
+				if (s_array[ctr])
+				{
+					ft_strlcpy(s_array[ctr], s + i, len);
+					is_split = 0;
+					ctr++;
+				}
+				else
+					return (free_all(s_array));
+			}
+			else if (s[i] == c)
+				is_split = 1;
 			i++;
 		}
+		s_array[ctr] = NULL;
+		return (s_array);
 	}
 	else
 		return (NULL);
-	string_array[i] = "\0";
-	return (string_array);
 }
-/*
-#include <stdio.h>
-int	main(void)
-{
-	char	**s_array = ft_split("justtesting", 't');
-	int	i = 0;
-	while (s_array[i][0])
-	{
-		printf("%s\n", s_array[i]);
-		i++;
-	}
-	free_all(s_array);
-	return (0);
-}
-*/
