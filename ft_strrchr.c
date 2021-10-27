@@ -5,7 +5,7 @@ char	*ft_strrchr(const char *s, int c)
 {
 	char	*occurence;
 	size_t	len;
-	int	i;
+	int		i;
 
 	i = 0;
 	occurence = NULL;
