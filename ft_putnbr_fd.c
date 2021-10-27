@@ -9,12 +9,13 @@ static int	intlen(int n)
 	len = 0;
 	if (n == 0)
 		return (1);
-	else if (n < 0)
-		len++;
-	while (n)
+	else
 	{
-		len++;
-		n /= 10;
+		while (n)
+		{
+			len++;
+			n /= 10;
+		}
 	}
 	return (len);
 }
@@ -22,37 +23,26 @@ static int	intlen(int n)
 void	ft_putnbr_fd(int n, int fd)
 {
 	char	n_str[12];
-	int	sign;
-	int	len;
-	int	i;
+	int		len;
+	int		i;
 
-	i = 0;
-	sign = 0;
 	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else
 	{
-		ft_strncpy(n_str, "-2147483648", 12);
-		return ;
+		len = intlen(n);
+		i = 0;
+		if (n < 0)
+		{
+			write(fd, "-", 1);
+			n *= -1;
+		}
+		while (i < len)
+		{
+			n_str[len - i - 1] = n % 10 + '0';
+			n /= 10;
+			i++;
+		}
 	}
-	len = intlen(n);
-	if (n < 0)
-	{
-		sign = 1;
-		n = -n;
-	}
-	while (i < len)
-	{
-		n_str[len - i - 1] = n % 10 + '0';
-		n /= 10;
-		i++;
-	}
-	if (sign == 1)
-	{
-		n_str[0] = '-';
-	}
-	while (i < 12)
-	{
-		n_str[i] = '\0';
-		i++;
-	}
-	write(fd, n_str, ft_strlen(n_str));
+	write(fd, n_str, len);
 }
