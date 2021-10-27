@@ -2,6 +2,24 @@
 #include <stdlib.h>
 #include "libft.h"
 
+static char	*ft_strncpy(char *dest, const char *src, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (src[i] && i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (dest[i] && i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
+}
+
 static int	intlen(int n)
 {
 	int	len;
@@ -19,22 +37,26 @@ static int	intlen(int n)
 	return (len);
 }
 
-#include <stdio.h>
-char *ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char	*n_str;
-	int	sign;
-	int	len;
-	int	i;
+	int		sign;
+	int		len;
+	int		i;
 
 	i = 0;
 	sign = 0;
 	if (n == -2147483648)
 	{
 		n_str = malloc(sizeof(char) * 13);
-		ft_strncpy(n_str, "-2147483648", 12);
-		n_str[12] = '\0';
-		return (n_str);
+		if (n_str)
+		{
+			ft_strncpy(n_str, "-2147483648", 12);
+			n_str[12] = '\0';
+			return (n_str);
+		}
+		else
+			return (NULL);
 	}
 	len = intlen(n);
 	n_str = malloc(sizeof(char) * (len + 1));
@@ -61,12 +83,3 @@ char *ft_itoa(int n)
 	else
 		return (NULL);
 }
-/*
-int	main(void)
-{
-	char	*str = ft_itoa(-2147483648);
-	printf("%s\n", str);
-	free(str);
-	return (0);
-}
-*/
