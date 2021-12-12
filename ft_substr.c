@@ -1,30 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kyalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/22 10:28:02 by kyalexan          #+#    #+#             */
+/*   Updated: 2021/12/12 15:09:50 by kyalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
-#include <stdlib.h>
-
-static char	*ft_strncpy(char *dest, const char *src, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (src[i] && i < n)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	while (dest[i] && i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return (dest);
-}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*substr;
+	int		reallen;
 
-	substr = ft_calloc((len + 1), sizeof(char));
-	if (substr && start < ft_strlen(s))
-		ft_strncpy(substr, s + start, len);
+	if (!s)
+		return (NULL);
+	if (start < ft_strlen(s))
+	{
+		substr = (char *) ft_calloc(sizeof(char), len + 1);
+		if (!substr)
+			return (NULL);
+		ft_memcpy(substr, s + start, len);
+	}
+	else
+	{
+		substr = (char *) ft_calloc(sizeof(char), 1);
+		if (!substr)
+			return (NULL);
+	}
 	return (substr);
 }

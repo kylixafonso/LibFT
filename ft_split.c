@@ -1,92 +1,79 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kyalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/22 10:27:29 by kyalexan          #+#    #+#             */
+/*   Updated: 2021/12/12 12:31:41 by kyalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-static int	count_len(char const *s, char c)
+static int	count_words(const char *str, char c)
+{
+	int	i;
+	int	not_c;
+
+	i = 0;
+	not_c = 0;
+	while (*str)
+	{
+		if (*str != c && not_c == 0)
+		{
+			not_c = 1;
+			i++;
+		}
+		else if (*str == c)
+			not_c = 0;
+		str++;
+	}
+	return (i);
+}
+
+static int	count_word_len(const char *str, char c)
 {
 	int	i;
 
 	i = 0;
-	while (s[i] != c && s[i] != '\0')
+	while (str[i] != c && str[i])
 		i++;
 	return (i);
 }
 
-static int	count_split(char const *s, char c)
+static void	*free_all(char **tab, int i)
 {
-	int	is_split;
-	int	ctr;
-	int	i;
-
-	i = 0;
-	ctr = 0;
-	if (s[0] == c)
-		is_split = 1;
-	else
-		is_split = 0;
-	while (s[i])
-	{
-		if (s[i] == c && !is_split)
-		{
-			ctr++;
-			is_split = 1;
-		}
-		else if (s[i] != c)
-			is_split = 0;
-		i++;
-	}
-	return (ctr);
-}
-
-void	*free_all(char **s_array)
-{
-	int	i;
-
-	i = 0;
-	while (s_array[i][0])
-	{
-		free(s_array[i]);
-		i++;
-	}
-	free(s_array);
+	while (i--)
+		free(tab[i]);
+	free(tab);
 	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**s_array;
-	int		is_split;
-	int		ctr;
-	int		len;
+	int		words;
+	char	**tab;
 	int		i;
 
-	s_array = (char **) malloc(sizeof(char *) * (count_split(s, c) + 2));
-	if (s_array)
-	{
-		is_split = 1;
-		i = 0;
-		ctr = 0;
-		while (s[i])
-		{
-			if (s[i] != c && s[i] != '\0' && is_split)
-			{
-				len = count_len(s + i, c) + 1;
-				s_array[ctr] = (char *) malloc(sizeof(char) * (len));
-				if (s_array[ctr])
-				{
-					ft_strlcpy(s_array[ctr], s + i, len);
-					is_split = 0;
-					ctr++;
-				}
-				else
-					return (free_all(s_array));
-			}
-			else if (s[i] == c)
-				is_split = 1;
-			i++;
-		}
-		s_array[ctr] = NULL;
-		return (s_array);
-	}
-	else
+	if (!s)
 		return (NULL);
+	words = count_words(s, c);
+	tab = (char **) malloc((words + 1) * sizeof(char *));
+	if (!tab)
+		return (NULL);
+	i = 0;
+	while (words--)
+	{
+		while (*s == c && *s != '\0')
+			s++;
+		tab[i] = ft_substr((char *)s, 0, count_word_len((char *)s, c));
+		if (!tab[i])
+			return (free_all(tab, i));
+		s = s + count_word_len((char *)s, c);
+		i++;
+	}
+	tab[i] = NULL;
+	return (tab);
 }

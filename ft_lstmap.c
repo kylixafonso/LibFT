@@ -1,5 +1,16 @@
-#include <stdlib.h>
-#include "libft_bonus.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kyalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/22 10:27:10 by kyalexan          #+#    #+#             */
+/*   Updated: 2021/12/12 12:30:51 by kyalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 static void	*ft_lstclearspecial(t_list **new_lst, void (*del)(void *))
 {
@@ -9,28 +20,26 @@ static void	*ft_lstclearspecial(t_list **new_lst, void (*del)(void *))
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*lst_element;
-	t_list	*new_lst_element;
 	t_list	*new_lst;
+	t_list	*new_elem;
 
-	new_lst = NULL;
-	if (lst && f && del)
+	if (!lst || !f)
+		return (NULL);
+	new_elem = ft_lstnew(f(lst->content));
+	if (!new_elem)
+		return (ft_lstclearspecial(&lst, del));
+	new_lst = new_elem;
+	lst = lst->next;
+	while (lst)
 	{
-		lst_element = lst;
-		while (lst_element)
+		new_elem = ft_lstnew(f(lst->content));
+		if (!new_elem)
 		{
-			new_lst_element = ft_lstnew(f(lst->content));
-			if (!new_lst_element)
-				return (ft_lstclearspecial(&new_lst, del));
-			new_lst_element->content = f(lst_element->content);
-			new_lst_element->next = NULL;
-			if (lst_element == lst)
-				new_lst = new_lst_element;
-			else
-				ft_lstadd_back(&new_lst, new_lst_element);
-			new_lst_element = new_lst_element->next;
-			lst_element = lst_element->next;
+			ft_lstclear(&lst, del);
+			return (ft_lstclearspecial(&new_lst, del));
 		}
+		lst = lst->next;
+		ft_lstadd_back(&new_lst, new_elem);
 	}
 	return (new_lst);
 }

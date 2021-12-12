@@ -1,5 +1,15 @@
-#include <string.h>
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kyalexan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/22 10:27:26 by kyalexan          #+#    #+#             */
+/*   Updated: 2021/12/12 14:20:53 by kyalexan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static int	intlen(int n)
@@ -43,6 +53,6 @@ void	ft_putnbr_fd(int n, int fd)
 			n /= 10;
 			i++;
 		}
+		write(fd, n_str, len);
 	}
-	write(fd, n_str, len);
 }
