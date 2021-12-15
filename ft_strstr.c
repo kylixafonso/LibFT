@@ -6,7 +6,7 @@
 /*   By: kyalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:28:00 by kyalexan          #+#    #+#             */
-/*   Updated: 2021/11/22 10:28:00 by kyalexan         ###   ########.fr       */
+/*   Updated: 2021/12/15 12:12:42 by kyalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strstr(const char *haystack, const char *needle)
 	needle_len = ft_strlen(needle);
 	while (haystack[i])
 	{
-		if (!strncmp(haystack + i, needle, needle_len))
+		if (!ft_strncmp(haystack + i, needle, needle_len))
 			return ((char *)haystack + i);
 		i++;
 	}

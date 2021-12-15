@@ -6,7 +6,7 @@
 /*   By: kyalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 11:59:09 by kyalexan          #+#    #+#             */
-/*   Updated: 2021/12/12 12:35:09 by kyalexan         ###   ########.fr       */
+/*   Updated: 2021/12/15 12:24:06 by kyalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int			ft_memcmp(const void *s1, const void *s2, size_t n);
 size_t		ft_strlen(const char *s);
 char		*ft_strdup(const char *s);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
-char		*ft_strcat(char *dest, const char *src);
-char		*ft_strncat(char *dest, const char *src, size_t n);
 size_t		ft_strlcat(char *dest, const char *src, size_t size);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);

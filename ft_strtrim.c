@@ -6,7 +6,7 @@
 /*   By: kyalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:28:01 by kyalexan          #+#    #+#             */
-/*   Updated: 2021/12/12 15:25:42 by kyalexan         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:47:15 by kyalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,46 +26,57 @@ static int	in_set(char c, char const *set)
 	return (0);
 }
 
-static int	count_out_set(char const *s, char const *set)
+static int	find_start(char const *s1, char const *set)
 {
-	int	ctr;
-	int	i;
+	int	start;
 
-	ctr = 0;
-	i = 0;
-	while (s[i])
+	start = 0;
+	while (s1[start])
 	{
-		if (!in_set(s[i], set))
-			ctr++;
-		i++;
+		if (!in_set(s1[start], set))
+			break ;
+		start++;
 	}
-	return (i);
+	return (start);
+}
+
+static int	find_end(char const *s1, char const *set)
+{
+	int	end;
+
+	end = ft_strlen(s1);
+	while (s1[end - 1])
+	{
+		if (!in_set(s1[end - 1], set) || end == 1)
+			break ;
+		end--;
+	}
+	return (end);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*new;
-	int		j;
-	int		i;
+	char	*s;
+	int		start;
+	int		end;
 
-	if (s1 && set)
+	start = find_start(s1, set);
+	end = find_end(s1, set);
+	if (start > end)
 	{
-		new = (char *) malloc(sizeof(char) * count_out_set(s1, set));
-		if (!new)
+		s = malloc(sizeof(char));
+		if (!s)
 			return (NULL);
-		i = 0;
-		j = 0;
-		while (s1[i])
-		{
-			if (!in_set(s1[i], set))
-			{
-				new[j] = s1[i];
-				j++;
-			}
-			i++;
-		}
-		new[j] = '\0';
-		return (new);
+		*s = '\0';
+		return (s);
 	}
-	return (NULL);
+	else
+	{
+		s = malloc(sizeof(char) * (end - start + 1));
+		if (!s)
+			return (NULL);
+		ft_memcpy(s, s1 + start, end - start);
+		s[end - start] = '\0';
+	}
+	return (s);
 }

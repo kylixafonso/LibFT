@@ -6,7 +6,7 @@
 /*   By: kyalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:27:04 by kyalexan          #+#    #+#             */
-/*   Updated: 2021/12/12 12:30:38 by kyalexan         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:57:51 by kyalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
 	if (lst && del)
 	{
-		(*del)(lst->content);
+		del(lst->content);
 		free(lst);
 	}
 }

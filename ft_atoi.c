@@ -6,7 +6,7 @@
 /*   By: kyalexan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:26:01 by kyalexan          #+#    #+#             */
-/*   Updated: 2021/11/22 10:26:04 by kyalexan         ###   ########.fr       */
+/*   Updated: 2021/12/15 12:58:25 by kyalexan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static int	ft_isspace(char c)
 
 static void	handle_spaces(const char *nptr, int *i)
 {
-	*i = 0;
 	while (ft_isspace(nptr[*i]))
 		(*i)++;
 }
@@ -61,12 +60,15 @@ int	ft_atoi(const char *nptr)
 	int	sign;
 	int	i;
 
+	i = 0;
 	handle_spaces(nptr, &i);
 	sign = handle_sign(nptr[i], &i);
 	number = 0;
-	if (!ft_strcmp(nptr + i, "2147483647"))
+	if (!ft_strcmp(nptr + i, "0"))
+		return (0);
+	else if (!ft_strcmp(nptr + i, "2147483647"))
 		return (2147483647);
-	else if (!ft_strcmp(nptr + i - 1, "-2147483648"))
+	else if (!ft_strcmp(nptr + i, "2147483648") && sign == -1)
 		return (-2147483648);
 	while (ft_isdigit(nptr[i]))
 	{
